@@ -16,7 +16,7 @@ class _ScreenAboutApplicationState extends State<ScreenAboutApplication> {
   Widget build(BuildContext context) {
     void onTap() {
       setState(() {
-        Navigator.pop(context);
+        context.router.pop();
       });
     }
 
