@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:battle_gender/app_bar/app_bar_universal.dart';
-import 'package:battle_gender/button/button_empty.dart';
+import 'package:battle_gender/shared/widgets/app_bar/app_bar_universal.dart';
+import 'package:battle_gender/shared/widgets/button/button_empty.dart';
 import 'package:flutter/material.dart';
 
 @RoutePage()

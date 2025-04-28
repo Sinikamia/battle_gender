@@ -1,5 +1,5 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:battle_gender/router/app_router.dart';
+import 'package:battle_gender/app/router/app_router.dart';
 import 'package:flutter/material.dart';
 
 class AppBarGame extends StatelessWidget implements PreferredSizeWidget {

@@ -1,8 +1,7 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:battle_gender/button/button_main.dart';
+import 'package:battle_gender/app/router/app_router.dart';
+import 'package:battle_gender/shared/widgets/button/button_main.dart';
 import 'package:flutter/material.dart';
-
-import 'router/app_router.dart';
 
 void main() {
   final _appRouter = AppRouter();
@@ -36,8 +35,6 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-
     return Scaffold(
       body: Stack(
         children: [
@@ -52,9 +49,11 @@ class _MyHomePageState extends State<MyHomePage> {
           Column(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              ButtonMain(onPressed: () {
-                context.pushRoute(const RouteAddingNewGame());
-              }),
+              ButtonMain(
+                  text: "Новая игра",
+                  onPressed: () {
+                    context.pushRoute(const RouteAddingNewGame());
+                  }),
             ],
           ),
         ],

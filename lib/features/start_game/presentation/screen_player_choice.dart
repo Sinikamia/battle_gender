@@ -1,10 +1,10 @@
 import 'dart:math';
 
 import 'package:auto_route/auto_route.dart';
-import 'package:battle_gender/app_bar/app_bar_game.dart';
-import 'package:battle_gender/button/button_painted_over.dart';
-import 'package:battle_gender/player_models.dart';
-import 'package:battle_gender/router/app_router.dart';
+import 'package:battle_gender/app/router/app_router.dart';
+import 'package:battle_gender/features/creation_players/domain/models/player_models.dart';
+import 'package:battle_gender/shared/widgets/app_bar/app_bar_game.dart';
+import 'package:battle_gender/shared/widgets/button/button_painted_over.dart';
 import 'package:flutter/material.dart';
 
 @RoutePage()

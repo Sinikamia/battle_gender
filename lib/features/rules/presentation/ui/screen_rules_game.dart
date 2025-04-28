@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:battle_gender/app_bar/app_bar_universal.dart';
-import 'package:battle_gender/card/card_rules.dart';
+import 'package:battle_gender/features/rules/presentation/ui/widgets/card_rules.dart';
+import 'package:battle_gender/shared/widgets/app_bar/app_bar_universal.dart';
 import 'package:flutter/material.dart';
 
 @RoutePage()

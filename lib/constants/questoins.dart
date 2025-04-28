@@ -1,4 +1,4 @@
-import 'package:battle_gender/card/question_models.dart';
+import 'package:battle_gender/features/game/domain/models/question_models.dart';
 
 List<CardQuestions> questions = <CardQuestions>[
   // Вопросы для женщин

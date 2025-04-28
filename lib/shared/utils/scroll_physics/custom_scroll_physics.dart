@@ -3,8 +3,7 @@ import 'package:flutter/widgets.dart';
 class CustomScrollPhysics extends ScrollPhysics {
   final bool canScroll;
 
-  const CustomScrollPhysics({ScrollPhysics? parent, required this.canScroll})
-      : super(parent: parent);
+  const CustomScrollPhysics({super.parent, required this.canScroll});
 
   @override
   CustomScrollPhysics applyTo(ScrollPhysics? ancestor) {

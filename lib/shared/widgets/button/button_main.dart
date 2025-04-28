@@ -2,12 +2,17 @@ import 'package:flutter/material.dart';
 
 class ButtonMain extends StatelessWidget {
   final Function() onPressed;
+  final String text;
 
-  ButtonMain({super.key, required this.onPressed});
+  const ButtonMain({super.key, required this.onPressed, required this.text});
 
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
+    const myStyle = TextStyle(
+      fontSize: 20,
+      color: Colors.white70,
+    );
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 30.0),
       child: Container(
@@ -19,13 +24,10 @@ class ButtonMain extends StatelessWidget {
         ),
         child: InkWell(
           onTap: onPressed,
-          child: const Center(
+          child: Center(
             child: Text(
-              "Новая игра",
-              style: TextStyle(
-                fontSize: 20,
-                color: Colors.white70,
-              ),
+              text,
+              style: myStyle,
             ),
           ),
         ),
