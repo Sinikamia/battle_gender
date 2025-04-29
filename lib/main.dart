@@ -1,9 +1,12 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:battle_gender/app/router/app_router.dart';
 import 'package:battle_gender/shared/widgets/button/button_main.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   final _appRouter = AppRouter();
   runApp(MyApp(router: _appRouter));
 }
