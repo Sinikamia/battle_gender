@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "898744991544",
+    "firebase_url": "https://battle-gender-default-rtdb.firebaseio.com",
     "project_id": "battle-gender",
     "storage_bucket": "battle-gender.firebasestorage.app"
   },

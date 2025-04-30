@@ -26,5 +26,7 @@
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
 	<string>1:898744991544:ios:7bf258da99a70be1278bcd</string>
+	<key>DATABASE_URL</key>
+	<string>https://battle-gender-default-rtdb.firebaseio.com</string>
 </dict>
 </plist>

@@ -4,9 +4,13 @@ import 'package:battle_gender/shared/widgets/button/button_main.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
+import 'core/firebase/firebase_options.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   final _appRouter = AppRouter();
   runApp(MyApp(router: _appRouter));
 }
