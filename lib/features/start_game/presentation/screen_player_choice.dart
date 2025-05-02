@@ -3,11 +3,10 @@ import 'dart:math';
 import 'package:auto_route/auto_route.dart';
 import 'package:battle_gender/app/router/app_router.dart';
 import 'package:battle_gender/features/creation_players/domain/models/player_models.dart';
+import 'package:battle_gender/features/start_game/data/datasources/firebase_datasource.dart';
 import 'package:battle_gender/shared/widgets/app_bar/app_bar_game.dart';
 import 'package:battle_gender/shared/widgets/button/button_painted_over.dart';
 import 'package:flutter/material.dart';
-
-import '../../../shared/widgets/questions/loaded_questions.dart';
 
 @RoutePage()
 class ScreenPlayerChoice extends StatefulWidget {
@@ -68,13 +67,17 @@ class _ScreenPlayerChoiceState extends State<ScreenPlayerChoice> {
   Future<void> startGame() async {
     TemporaryPlayer selectedPlayer =
         widget.players[_getActualIndex(selectedIndex)];
-    final questions = await loadQuestionsFromFirebase();
-    context.pushRoute(RouteGame(
-      players: widget.players,
-      startingPlayerId: selectedPlayer.id,
-      startingPlayerGender: selectedPlayer.gender,
-      questions: questions,
-    ));
+    final IFirebaseDatasource firebaseDatasource = FirebaseDatasource();
+
+    final questions = await firebaseDatasource.loadQuestions();
+    if (mounted) {
+      context.pushRoute(RouteGame(
+        players: widget.players,
+        startingPlayerId: selectedPlayer.id,
+        startingPlayerGender: selectedPlayer.gender,
+        questions: questions,
+      ));
+    }
   }
 
   @override
