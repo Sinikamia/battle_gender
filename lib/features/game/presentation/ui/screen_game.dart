@@ -2,7 +2,6 @@ import 'dart:math';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:battle_gender/app/router/app_router.dart';
-import 'package:battle_gender/constants/questoins.dart';
 import 'package:battle_gender/features/creation_players/domain/models/player_models.dart';
 import 'package:battle_gender/features/game/domain/models/question_models.dart';
 import 'package:battle_gender/features/game/presentation/ui/widgets/button_answer.dart';
@@ -12,6 +11,7 @@ import 'package:battle_gender/shared/utils/scroll_physics/custom_scroll_physics.
 import 'package:battle_gender/shared/widgets/app_bar/app_bar_game.dart';
 import 'package:battle_gender/shared/widgets/button/button_painted_over.dart';
 import 'package:battle_gender/shared/widgets/card/card_player.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
 @RoutePage()
@@ -19,11 +19,13 @@ class ScreenGame extends StatefulWidget {
   final List<TemporaryPlayer> players;
   final int startingPlayerGender;
   final String startingPlayerId;
+  final List<CardQuestions> questions;
   const ScreenGame(
       {super.key,
       required this.players,
       required this.startingPlayerGender,
-      required this.startingPlayerId});
+      required this.startingPlayerId,
+      required this.questions});
 
   @override
   State<ScreenGame> createState() => _ScreenGameState();
@@ -47,6 +49,46 @@ class _ScreenGameState extends State<ScreenGame>
   bool _isCardVisible = true;
   TemporaryPlayer? _playerReachedMaxPoints;
 
+  Future<void> loadQuestionsFromFirebase() async {
+    final dbRef = FirebaseDatabase.instance.ref("questions");
+
+    final snapshot = await dbRef.get();
+    if (snapshot.exists) {
+      final data = snapshot.value as Map<dynamic, dynamic>;
+
+      List<CardQuestions> loadedQuestions = [];
+
+      data.forEach((key, value) {
+        final typeString = value['type'] as String;
+        final type = typeString == 'man'
+            ? CardQuestionsType.man
+            : CardQuestionsType.woman;
+
+        loadedQuestions.add(CardQuestions(
+          question: value['question'] ?? '',
+          answer: value['answer'] ?? '',
+          type: type,
+        ));
+      });
+
+      setState(() {
+        filteredQuestions = widget.questions
+            .where((q) =>
+                q.type ==
+                (currentPlayer.gender == 0
+                    ? CardQuestionsType.man
+                    : CardQuestionsType.woman))
+            .toList();
+
+        final initialPage = filteredQuestions.length * 100;
+        _pageController.jumpToPage(initialPage);
+        _previousPage = initialPage;
+      });
+    } else {
+      print("No data found in Firebase.");
+    }
+  }
+
   @override
   void initState() {
     super.initState();
@@ -69,7 +111,8 @@ class _ScreenGameState extends State<ScreenGame>
 
     _currentPlayerIndex =
         widget.players.indexWhere((p) => p.id == widget.startingPlayerId);
-    filteredQuestions = questions
+
+    filteredQuestions = widget.questions
         .where((q) =>
             q.type ==
             (currentPlayer.gender == 0
@@ -181,20 +224,20 @@ class _ScreenGameState extends State<ScreenGame>
       canScroll = true;
       _controller.reset();
 
-      filteredQuestions = questions
-          .where((q) =>
-              q.type ==
-              (currentPlayer.gender == 0
-                  ? CardQuestionsType.man
-                  : CardQuestionsType.woman))
-          .toList();
-
       final random = Random();
       final randomIndex = filteredQuestions.length * 100 +
           random.nextInt(filteredQuestions.length);
       _pageController.jumpToPage(randomIndex);
       selectedIndex = randomIndex;
       _previousPage = randomIndex;
+
+      filteredQuestions = widget.questions
+          .where((q) =>
+              q.type ==
+              (currentPlayer.gender == 0
+                  ? CardQuestionsType.man
+                  : CardQuestionsType.woman))
+          .toList();
 
       _isCardVisible = true;
     });

@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:battle_gender/features/about_game/presentation/ui/screen_about_application.dart';
 import 'package:battle_gender/features/creation_players/domain/models/player_models.dart';
 import 'package:battle_gender/features/creation_players/presentation/ui/screen_adding_new_game.dart';
+import 'package:battle_gender/features/game/domain/models/question_models.dart';
 import 'package:battle_gender/features/game/presentation/ui/screen_game.dart';
 import 'package:battle_gender/features/game_over/presentation/ui/screen_end_game.dart';
 import 'package:battle_gender/features/rules/presentation/ui/screen_rules_game.dart';

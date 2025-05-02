@@ -103,6 +103,7 @@ class RouteGame extends PageRouteInfo<RouteGameArgs> {
     required List<TemporaryPlayer> players,
     required int startingPlayerGender,
     required String startingPlayerId,
+    required List<CardQuestions> questions,
     List<PageRouteInfo>? children,
   }) : super(
          RouteGame.name,
@@ -111,6 +112,7 @@ class RouteGame extends PageRouteInfo<RouteGameArgs> {
            players: players,
            startingPlayerGender: startingPlayerGender,
            startingPlayerId: startingPlayerId,
+           questions: questions,
          ),
          initialChildren: children,
        );
@@ -126,6 +128,7 @@ class RouteGame extends PageRouteInfo<RouteGameArgs> {
         players: args.players,
         startingPlayerGender: args.startingPlayerGender,
         startingPlayerId: args.startingPlayerId,
+        questions: args.questions,
       );
     },
   );
@@ -137,6 +140,7 @@ class RouteGameArgs {
     required this.players,
     required this.startingPlayerGender,
     required this.startingPlayerId,
+    required this.questions,
   });
 
   final Key? key;
@@ -147,9 +151,11 @@ class RouteGameArgs {
 
   final String startingPlayerId;
 
+  final List<CardQuestions> questions;
+
   @override
   String toString() {
-    return 'RouteGameArgs{key: $key, players: $players, startingPlayerGender: $startingPlayerGender, startingPlayerId: $startingPlayerId}';
+    return 'RouteGameArgs{key: $key, players: $players, startingPlayerGender: $startingPlayerGender, startingPlayerId: $startingPlayerId, questions: $questions}';
   }
 }
 
@@ -217,7 +223,7 @@ class RouteSetting extends PageRouteInfo<void> {
   static PageInfo page = PageInfo(
     name,
     builder: (data) {
-      return ScreenSetting();
+      return const ScreenSetting();
     },
   );
 }

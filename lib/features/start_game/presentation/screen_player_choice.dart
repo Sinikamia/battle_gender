@@ -7,6 +7,8 @@ import 'package:battle_gender/shared/widgets/app_bar/app_bar_game.dart';
 import 'package:battle_gender/shared/widgets/button/button_painted_over.dart';
 import 'package:flutter/material.dart';
 
+import '../../../shared/widgets/questions/loaded_questions.dart';
+
 @RoutePage()
 class ScreenPlayerChoice extends StatefulWidget {
   final List<TemporaryPlayer> players;
@@ -58,20 +60,20 @@ class _ScreenPlayerChoiceState extends State<ScreenPlayerChoice> {
       duration: const Duration(milliseconds: 800),
       curve: Curves.easeInOut,
     );
-
     setState(() {
       selectedIndex = randomIndex;
     });
   }
 
-  void startGame() {
+  Future<void> startGame() async {
     TemporaryPlayer selectedPlayer =
         widget.players[_getActualIndex(selectedIndex)];
-
+    final questions = await loadQuestionsFromFirebase();
     context.pushRoute(RouteGame(
       players: widget.players,
       startingPlayerId: selectedPlayer.id,
       startingPlayerGender: selectedPlayer.gender,
+      questions: questions,
     ));
   }
 

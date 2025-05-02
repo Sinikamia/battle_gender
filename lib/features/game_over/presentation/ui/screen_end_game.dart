@@ -72,7 +72,7 @@ class _ScreenEndGameState extends State<ScreenEndGame> {
                         child: Container(
                           color: const Color(0xFF600010),
                           child: Padding(
-                            padding: const EdgeInsets.all(20.0),
+                            padding: const EdgeInsets.all(15.0),
                             child: Center(
                               child: Text(
                                 isDraw
@@ -86,7 +86,7 @@ class _ScreenEndGameState extends State<ScreenEndGame> {
                         ),
                       ),
                       const SizedBox(
-                        height: 10,
+                        height: 30,
                       ),
                       Expanded(
                         child: ClipRRect(
@@ -123,7 +123,7 @@ class _ScreenEndGameState extends State<ScreenEndGame> {
               ),
               Padding(
                 padding: const EdgeInsets.only(
-                    left: 10.0, right: 10.0, bottom: 30.0, top: 20.0),
+                    left: 10.0, right: 10.0, bottom: 30.0, top: 30.0),
                 child: ButtonPaintedOver(
                     text: "Новая игра",
                     onTap: () {
