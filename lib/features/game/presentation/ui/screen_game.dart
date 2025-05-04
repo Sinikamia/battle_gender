@@ -5,12 +5,10 @@ import 'package:battle_gender/app/router/app_router.dart';
 import 'package:battle_gender/features/creation_players/domain/models/player_models.dart';
 import 'package:battle_gender/features/game/domain/models/question_models.dart';
 import 'package:battle_gender/features/game/presentation/ui/widgets/button_answer.dart';
-import 'package:battle_gender/features/game/presentation/ui/widgets/card_answer.dart';
-import 'package:battle_gender/features/game/presentation/ui/widgets/card_coup_questions.dart';
-import 'package:battle_gender/shared/utils/scroll_physics/custom_scroll_physics.dart';
+import 'package:battle_gender/features/game/presentation/ui/widgets/card_player.dart';
+import 'package:battle_gender/features/game/presentation/ui/widgets/pageview_card.dart';
 import 'package:battle_gender/shared/widgets/app_bar/app_bar_game.dart';
 import 'package:battle_gender/shared/widgets/button/button_painted_over.dart';
-import 'package:battle_gender/shared/widgets/card/card_player.dart';
 import 'package:flutter/material.dart';
 
 @RoutePage()
@@ -217,7 +215,7 @@ class _ScreenGameState extends State<ScreenGame>
           context.pushRoute(const RouteRulesGame());
         },
       ),
-      backgroundColor: Color(0xFF1E1E1E),
+      backgroundColor: const Color(0xFF1E1E1E),
       body: Stack(
         children: [
           Opacity(
@@ -233,139 +231,19 @@ class _ScreenGameState extends State<ScreenGame>
           ),
           Column(children: [
             const SizedBox(height: 20),
-            AnimatedSwitcher(
-              duration: const Duration(milliseconds: 500),
-              switchInCurve: Curves.easeOutBack,
-              switchOutCurve: Curves.easeInBack,
-              transitionBuilder: (child, animation) {
-                final offsetAnimation = Tween<Offset>(
-                  begin: const Offset(0, -0.5),
-                  end: Offset.zero,
-                ).animate(animation);
-
-                return SlideTransition(
-                  position: offsetAnimation,
-                  child: FadeTransition(
-                    opacity: animation,
-                    child: child,
-                  ),
-                );
-              },
-              child: CardPlayer(
-                key: ValueKey(currentPlayer.id),
-                text: currentPlayer.name.text,
-                points: currentPlayer.points,
-              ),
-            ),
+            CardPlayer(player: currentPlayer),
             const SizedBox(height: 16),
-            Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Expanded(
-                    child: Stack(
-                      alignment: Alignment.center,
-                      children: [
-                        ConstrainedBox(
-                          constraints: const BoxConstraints(
-                            maxHeight: 400,
-                          ),
-                          child: PageView.builder(
-                            controller: _pageController,
-                            onPageChanged: _onPageChanged,
-                            physics: CustomScrollPhysics(canScroll: canScroll),
-                            itemBuilder: (context, index) {
-                              int actualIndex =
-                                  index % filteredQuestions.length;
-                              CardQuestions currentQuestion =
-                                  filteredQuestions[actualIndex];
-                              return AnimatedBuilder(
-                                animation: _pageController,
-                                builder: (context, child) {
-                                  double scale = 1.0;
-                                  if (_pageController.position.haveDimensions) {
-                                    double pageOffset =
-                                        _pageController.page ?? 0;
-                                    scale = max(0.8,
-                                        1 - (pageOffset - index).abs() + 0.3);
-                                  }
-
-                                  bool isSelected = index == selectedIndex;
-                                  final isNext = index > selectedIndex
-                                      ? true
-                                      : index < selectedIndex
-                                          ? false
-                                          : null;
-
-                                  return Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 6.0),
-                                    child: GestureDetector(
-                                      onTap: _quantityTap,
-                                      child: Stack(
-                                        children: [
-                                          Transform.scale(
-                                            scale: isSelected ? 0.87 : 0.7,
-                                            alignment: isNext == null
-                                                ? Alignment.center
-                                                : isNext
-                                                    ? Alignment.centerLeft
-                                                    : Alignment.centerRight,
-                                            child: isSelected
-                                                ? AnimatedBuilder(
-                                                    animation: _controller,
-                                                    builder: (context, child) {
-                                                      final isFlipped =
-                                                          _rotationAnimation
-                                                                  .value >
-                                                              0.5;
-                                                      return Transform(
-                                                        alignment:
-                                                            Alignment.center,
-                                                        transform: Matrix4
-                                                            .identity()
-                                                          ..setEntry(
-                                                              3, 2, 0.0012)
-                                                          ..rotateY(pi *
-                                                              _rotationAnimation
-                                                                  .value),
-                                                        child: isFlipped
-                                                            ? CardAnswer(
-                                                                text:
-                                                                    currentQuestion
-                                                                        .answer)
-                                                            : CardCoupQuestions(
-                                                                text: currentQuestion
-                                                                    .question,
-                                                                opacity:
-                                                                    _opacity,
-                                                                textOpacity:
-                                                                    _textOpacity,
-                                                              ),
-                                                      );
-                                                    })
-                                                : CardCoupQuestions(
-                                                    text: currentQuestion
-                                                        .question,
-                                                    opacity: _opacity,
-                                                    textOpacity: _textOpacity,
-                                                  ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  );
-                                },
-                              );
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            PageViewCard(
+                pageController: _pageController,
+                canScroll: canScroll,
+                controller: _controller,
+                onPageChanged: _onPageChanged,
+                selectedIndex: selectedIndex,
+                quantityTap: _quantityTap,
+                opacity: _opacity,
+                textOpacity: _textOpacity,
+                rotationAnimation: _rotationAnimation,
+                filteredQuestions: filteredQuestions),
             const SizedBox(height: 16),
             canScroll
                 ? Column(
@@ -379,9 +257,9 @@ class _ScreenGameState extends State<ScreenGame>
                   )
                 : Column(
                     children: [
-                      Container(
+                      const SizedBox(
                         height: 43,
-                        child: const Padding(
+                        child: Padding(
                           padding: EdgeInsets.symmetric(horizontal: 20.0),
                           child: Text(
                             "Выбери «Правильно», если ответ верный, и «Неправильно», если неверный",

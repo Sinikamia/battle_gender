@@ -7,7 +7,7 @@ import 'package:battle_gender/features/game/presentation/ui/screen_game.dart';
 import 'package:battle_gender/features/game_over/presentation/ui/screen_end_game.dart';
 import 'package:battle_gender/features/rules/presentation/ui/screen_rules_game.dart';
 import 'package:battle_gender/features/settings/presentation/ui/screen_setting.dart';
-import 'package:battle_gender/features/start_game/presentation/screen_player_choice.dart';
+import 'package:battle_gender/features/start_game/presentation/ui/screen_player_choice.dart';
 import 'package:battle_gender/main.dart';
 import 'package:flutter/material.dart';
 
