@@ -4,10 +4,14 @@ import 'package:auto_route/auto_route.dart';
 import 'package:battle_gender/app/router/app_router.dart';
 import 'package:battle_gender/features/creation_players/domain/models/player_models.dart';
 import 'package:battle_gender/features/start_game/data/datasources/firebase_datasource.dart';
+import 'package:battle_gender/features/start_game/presentation/state/player_choice_bloc/player_choice_bloc.dart';
+import 'package:battle_gender/features/start_game/presentation/state/player_choice_bloc/player_choice_event.dart';
+import 'package:battle_gender/features/start_game/presentation/state/player_choice_bloc/player_choice_state.dart';
 import 'package:battle_gender/features/start_game/presentation/ui/widgets/pageview_player.dart';
 import 'package:battle_gender/shared/widgets/app_bar/app_bar_game.dart';
 import 'package:battle_gender/shared/widgets/button/button_painted_over.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ScreenPlayerChoiceContent extends StatefulWidget {
   final List<TemporaryPlayer> players;
@@ -20,7 +24,6 @@ class ScreenPlayerChoiceContent extends StatefulWidget {
 
 class _ScreenPlayerChoiceContentState extends State<ScreenPlayerChoiceContent> {
   final PageController _pageController = PageController(viewportFraction: 0.45);
-  int selectedIndex = 0;
 
   @override
   void initState() {
@@ -37,17 +40,17 @@ class _ScreenPlayerChoiceContentState extends State<ScreenPlayerChoiceContent> {
   }
 
   int _getActualIndex(int index) {
-    print(index);
     return index % widget.players.length;
   }
 
   void _onPageChanged(int index) {
     setState(() {
-      selectedIndex = index;
+      context.read<PlayerChoiceBloc>().add(PlayerSelected(index));
     });
   }
 
   Future<void> _selectRandomBox() async {
+    final bloc = context.read<PlayerChoiceBloc>();
     int currentIndex = _pageController.page?.round() ?? 0;
     int randomIndex = currentIndex +
         5 +
@@ -59,12 +62,12 @@ class _ScreenPlayerChoiceContentState extends State<ScreenPlayerChoiceContent> {
       duration: const Duration(milliseconds: 800),
       curve: Curves.easeInOut,
     );
-    setState(() {
-      selectedIndex = randomIndex;
-    });
+    bloc.add(PlayerSelected(randomIndex));
   }
 
   Future<void> startGame() async {
+    final bloc = context.read<PlayerChoiceBloc>();
+    final selectedIndex = bloc.state.selectedIndex;
     TemporaryPlayer selectedPlayer =
         widget.players[_getActualIndex(selectedIndex)];
     final IFirebaseDatasource firebaseDatasource = FirebaseDatasource();
@@ -104,17 +107,18 @@ class _ScreenPlayerChoiceContentState extends State<ScreenPlayerChoiceContent> {
           ),
           Column(
             children: [
-              PageViewPlayer(
-                players: widget.players,
-                controller: _pageController,
-                selectedIndex: selectedIndex,
-                onPageChanged: _onPageChanged,
-                onPlayerTap: (index) {
-                  setState(() {
-                    selectedIndex = index;
-                  });
-                },
-              ),
+              BlocBuilder<PlayerChoiceBloc, PlayerChoiceState>(
+                  builder: (context, state) {
+                return PageViewPlayer(
+                  players: widget.players,
+                  controller: _pageController,
+                  onPageChanged: _onPageChanged,
+                  selectedIndex: state.selectedIndex,
+                  onPlayerTap: (index) {
+                    context.read<PlayerChoiceBloc>().add(PlayerSelected(index));
+                  },
+                );
+              }),
               const SizedBox(height: 16),
               ButtonPaintedOver(
                   text: "Выбрать случайно", onTap: _selectRandomBox),
