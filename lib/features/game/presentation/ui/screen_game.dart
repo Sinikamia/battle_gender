@@ -27,12 +27,29 @@ class ScreenGame extends StatefulWidget {
 class _ScreenGameState extends State<ScreenGame>
     with SingleTickerProviderStateMixin {
   late AnimationController animationController;
+  late PageController pageController;
+  late int initialPage;
+
   @override
   void initState() {
     super.initState();
     animationController = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 1),
+    );
+
+    final filteredQuestions = widget.questions.where((q) {
+      return q.type ==
+          (widget.startingPlayerGender == 0
+              ? CardQuestionsType.man
+              : CardQuestionsType.woman);
+    }).toList();
+
+    initialPage = filteredQuestions.length * 100;
+
+    pageController = PageController(
+      initialPage: initialPage,
+      viewportFraction: 0.8,
     );
   }
 
@@ -51,7 +68,7 @@ class _ScreenGameState extends State<ScreenGame>
         startingPlayerGender: widget.startingPlayerGender,
         startingPlayerId: widget.startingPlayerId,
         animationController: animationController,
-        pageController: PageController(viewportFraction: 0.8),
+        pageController: pageController,
       ),
       child: ScreenGameContent(
           players: widget.players,

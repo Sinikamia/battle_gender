@@ -18,13 +18,18 @@ class CardCoupQuestions extends StatelessWidget {
       color: Colors.white,
       fontSize: 20,
     );
+    const myStyle1 = TextStyle(
+      color: Colors.white,
+      fontSize: 22,
+      fontWeight: FontWeight.w600,
+    );
     return Container(
       width: double.maxFinite,
       height: double.maxFinite,
       decoration: BoxDecoration(
         //image: DecorationImage(
         //image: const AssetImage('assets/paper.jpg'), fit: BoxFit.cover),
-        color: Color(0xFF600010),
+        color: const Color(0xFF600010),
         borderRadius: BorderRadius.circular(30),
         boxShadow: [
           BoxShadow(
@@ -64,7 +69,20 @@ class CardCoupQuestions extends StatelessWidget {
               duration: const Duration(seconds: 2),
               child: Padding(
                 padding: const EdgeInsets.all(20.0),
-                child: Text(text, textAlign: TextAlign.center, style: myStyle),
+                child: Center(
+                    child: Column(
+                  children: [
+                    const Text(
+                      "Вопрос",
+                      style: myStyle1,
+                      textAlign: TextAlign.center,
+                    ),
+                    Expanded(
+                        child: Center(
+                            child: Text(text,
+                                textAlign: TextAlign.center, style: myStyle))),
+                  ],
+                )),
               ),
             ),
           ),

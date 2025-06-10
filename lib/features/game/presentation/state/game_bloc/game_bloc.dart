@@ -22,7 +22,8 @@ class GameBloc extends Bloc<GameEvent, GameState> {
             questions: questions,
             currentPlayerIndex:
                 players.indexWhere((p) => p.id == startingPlayerId),
-            selectedIndex: 0,
+            selectedIndex: pageController.initialPage,
+            previousPage: pageController.initialPage,
             canScroll: true,
             isTapped: false,
             isFlipped: false,
@@ -40,7 +41,6 @@ class GameBloc extends Bloc<GameEvent, GameState> {
                   parent: animationController, curve: Curves.easeInOut),
             ),
             playerReachedMaxPoints: null,
-            previousPage: 0,
           ),
         ) {
     on<OnPageChanged>(_onPageChanged);

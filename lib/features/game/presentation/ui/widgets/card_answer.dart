@@ -10,15 +10,20 @@ class CardAnswer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const mystyle = TextStyle(
+    const myStyle = TextStyle(
       color: Colors.white,
       fontSize: 20,
+    );
+    const myStyle1 = TextStyle(
+      color: Colors.white,
+      fontSize: 22,
+      fontWeight: FontWeight.w600,
     );
     return Container(
       width: double.maxFinite,
       height: double.maxFinite,
       decoration: BoxDecoration(
-        color: Color(0xFF600010),
+        color: const Color(0xFF600010),
         borderRadius: BorderRadius.circular(30),
         boxShadow: [
           BoxShadow(
@@ -34,10 +39,23 @@ class CardAnswer extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(20.0),
           child: Center(
-            child: Text(
-              text,
-              style: mystyle,
-              textAlign: TextAlign.center,
+            child: Column(
+              children: [
+                const Text(
+                  "Ответ",
+                  style: myStyle1,
+                  textAlign: TextAlign.center,
+                ),
+                Expanded(
+                  child: Center(
+                    child: Text(
+                      text,
+                      style: myStyle,
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         ),
