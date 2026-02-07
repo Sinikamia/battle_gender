@@ -1,0 +1,42 @@
+import 'package:auto_route/auto_route.dart';
+import 'package:battle_gender/app/router/app_router.dart';
+import 'package:battle_gender/shared/widgets/button/button_main.dart';
+import 'package:flutter/material.dart';
+
+@RoutePage()
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({super.key});
+
+  @override
+  State<MyHomePage> createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Stack(
+        children: [
+          Container(
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage("assets/battle_gender_1.jpg"),
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              ButtonMain(
+                  text: "Новая игра",
+                  onPressed: () {
+                    context.pushRoute(const RouteAddingNewGame());
+                  }),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}

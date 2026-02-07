@@ -33,7 +33,7 @@ class CardRules extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                       ),
                     )
-                  : Icon(
+                  : const Icon(
                       Icons.star_border_outlined,
                       color: Colors.white,
                       size: 28,
@@ -72,7 +72,7 @@ class CardRules extends StatelessWidget {
                           const TextStyle(fontSize: 16, color: Colors.white70),
                     ),
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                 ],
               ),
             ),
