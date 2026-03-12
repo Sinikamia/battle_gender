@@ -4,6 +4,7 @@ import 'package:battle_gender/features/creation_players/domain/models/player_mod
 import 'package:battle_gender/features/game/domain/models/question_models.dart';
 import 'package:battle_gender/features/game/presentation/state/game_bloc/game_bloc.dart';
 import 'package:battle_gender/features/game/presentation/state/game_bloc/game_event.dart';
+import 'package:battle_gender/features/game/presentation/state/game_bloc/card_side.dart';
 import 'package:battle_gender/features/game/presentation/state/game_bloc/game_state.dart';
 import 'package:battle_gender/features/game/presentation/ui/widgets/button_answer.dart';
 import 'package:battle_gender/features/game/presentation/ui/widgets/card_player.dart';
@@ -66,22 +67,23 @@ class _ScreenGameContentState extends State<ScreenGameContent> {
               CardPlayer(player: state.currentPlayer),
               const SizedBox(height: 16),
               PageViewCard(
-                  pageController: state.pageController,
-                  canScroll: state.canScroll,
-                  controller: state.animationController,
-                  onPageChanged: (index) {
-                    context.read<GameBloc>().add(OnPageChanged(index));
-                  },
-                  selectedIndex: state.selectedIndex,
-                  quantityTap: () {
-                    context.read<GameBloc>().add(const QuantityTap());
-                  },
-                  opacity: state.opacity,
-                  textOpacity: state.textOpacity,
-                  rotationAnimation: state.rotationAnimation,
-                  filteredQuestions: filteredQuestions),
+                pageController: state.pageController,
+                canScroll: state.canScroll,
+                controller: state.animationController,
+                onPageChanged: (index) {
+                  context.read<GameBloc>().add(OnPageChanged(index));
+                },
+                selectedIndex: state.selectedIndex,
+                quantityTap: () {
+                  context.read<GameBloc>().add(const QuantityTap());
+                },
+                rotationAnimation: state.rotationAnimation,
+                filteredQuestions: filteredQuestions,
+                cardSide: state.cardSide,
+                nextCardSide: state.nextCardSide,
+              ),
               const SizedBox(height: 16),
-              state.canScroll
+              state.cardSide == CardSide.front
                   ? Column(
                       children: [
                         const SizedBox(

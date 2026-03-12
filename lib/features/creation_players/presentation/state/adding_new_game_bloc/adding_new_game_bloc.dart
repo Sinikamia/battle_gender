@@ -12,8 +12,9 @@ class AddingNewGameBloc extends Bloc<AddingNewGameEvent, AddingNewGameState> {
     });
 
     on<DeletePlayer>((event, emit) {
-      final newPlayers = List<TemporaryPlayer>.from(state.players)
-        ..removeAt(event.index);
+      final newPlayers = List<TemporaryPlayer>.from(state.players);
+      newPlayers[event.index].name.dispose();
+      newPlayers.removeAt(event.index);
       emit(state.copyWith(players: newPlayers));
     });
 
@@ -30,5 +31,13 @@ class AddingNewGameBloc extends Bloc<AddingNewGameEvent, AddingNewGameState> {
       updated[event.index].name.text = event.name;
       emit(state.copyWith(players: updated));
     });
+  }
+
+  @override
+  Future<void> close() {
+    for (final player in state.players) {
+      player.name.dispose();
+    }
+    return super.close();
   }
 }

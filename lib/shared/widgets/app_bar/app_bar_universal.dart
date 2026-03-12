@@ -26,7 +26,7 @@ class AppBarUniversal extends StatelessWidget implements PreferredSizeWidget {
     );
     return AppBar(
       automaticallyImplyLeading: false,
-      backgroundColor: Color(0xFF600010), //Color(0xFF40020E),
+      backgroundColor: const Color(0xFF600010), //Color(0xFF40020E),
       elevation: 10,
       leading: onTap != null
           ? IconButton(

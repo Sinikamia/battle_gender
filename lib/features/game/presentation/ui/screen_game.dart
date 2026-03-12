@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:battle_gender/constants/game_config.dart';
 import 'package:battle_gender/features/creation_players/domain/models/player_models.dart';
 import 'package:battle_gender/features/game/domain/models/question_models.dart';
 import 'package:battle_gender/features/game/presentation/state/game_bloc/game_bloc.dart';
@@ -35,7 +36,7 @@ class _ScreenGameState extends State<ScreenGame>
     super.initState();
     animationController = AnimationController(
       vsync: this,
-      duration: const Duration(seconds: 1),
+      duration: GameConfig.flipAnimationDuration,
     );
 
     final filteredQuestions = widget.questions.where((q) {
@@ -45,11 +46,11 @@ class _ScreenGameState extends State<ScreenGame>
               : CardQuestionsType.woman);
     }).toList();
 
-    initialPage = filteredQuestions.length * 100;
+    initialPage = filteredQuestions.length * GameConfig.infiniteScrollMultiplier;
 
     pageController = PageController(
       initialPage: initialPage,
-      viewportFraction: 0.8,
+      viewportFraction: GameConfig.pageViewFraction,
     );
   }
 

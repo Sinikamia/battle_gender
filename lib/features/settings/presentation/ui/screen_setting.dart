@@ -17,7 +17,7 @@ class ScreenSetting extends StatelessWidget {
         },
         text: "Настройки",
       ),
-      backgroundColor: Color(0xFF1E1E1E),
+      backgroundColor: const Color(0xFF1E1E1E),
       body: Stack(
         children: [
           Opacity(

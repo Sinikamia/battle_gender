@@ -88,9 +88,10 @@ class PageViewPlayer extends StatelessWidget {
                                           ? Alignment.centerLeft
                                           : Alignment.centerRight,
                                       child: AnimatedContainer(
-                                        duration: Duration(milliseconds: 300),
-                                        margin:
-                                            EdgeInsets.symmetric(horizontal: 6),
+                                        duration:
+                                            const Duration(milliseconds: 300),
+                                        margin: const EdgeInsets.symmetric(
+                                            horizontal: 6),
                                         decoration: BoxDecoration(
                                           color: isSelected
                                               ? const Color(

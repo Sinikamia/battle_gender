@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:battle_gender/constants/game_config.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:battle_gender/app/router/app_router.dart';
 import 'package:battle_gender/features/creation_players/domain/models/player_models.dart';
@@ -29,7 +30,7 @@ class _ScreenPlayerChoiceContentState extends State<ScreenPlayerChoiceContent> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      _pageController.jumpToPage(widget.players.length * 100);
+      _pageController.jumpToPage(widget.players.length * GameConfig.infiniteScrollMultiplier);
     });
   }
 
@@ -72,14 +73,30 @@ class _ScreenPlayerChoiceContentState extends State<ScreenPlayerChoiceContent> {
         widget.players[_getActualIndex(selectedIndex)];
     final IFirebaseDatasource firebaseDatasource = FirebaseDatasource();
 
-    final questions = await firebaseDatasource.loadQuestions();
-    if (mounted) {
+    try {
+      final questions = await firebaseDatasource.loadQuestions();
+      if (!mounted) return;
+
+      if (questions.isEmpty) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Не удалось загрузить вопросы')),
+        );
+        return;
+      }
+
       context.pushRoute(RouteGame(
         players: widget.players,
         startingPlayerId: selectedPlayer.id,
         startingPlayerGender: selectedPlayer.gender,
         questions: questions,
       ));
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Ошибка загрузки. Проверьте подключение к интернету'),
+        ),
+      );
     }
   }
 

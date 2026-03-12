@@ -1,9 +1,12 @@
 import 'package:battle_gender/features/creation_players/domain/models/player_models.dart';
 import 'package:battle_gender/features/game/domain/models/question_models.dart';
+import 'package:battle_gender/features/game/presentation/state/game_bloc/card_side.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 
 class GameState extends Equatable {
+  final CardSide cardSide;
+  final CardSide nextCardSide;
   final List<TemporaryPlayer> players;
   final List<CardQuestions> questions;
   final int currentPlayerIndex;
@@ -12,8 +15,6 @@ class GameState extends Equatable {
   final bool isTapped;
   final bool isFlipped;
   final bool isCardVisible;
-  final double opacity;
-  final double textOpacity;
   final int previousPage;
   final AnimationController animationController;
   final Animation<double> rotationAnimation;
@@ -22,15 +23,15 @@ class GameState extends Equatable {
   final TemporaryPlayer? playerReachedMaxPoints;
 
   const GameState({
+    required this.cardSide,
+    required this.nextCardSide,
     required this.players,
     required this.questions,
     required this.currentPlayerIndex,
     required this.selectedIndex,
     required this.canScroll,
-    required this.opacity,
     required this.isTapped,
     required this.isFlipped,
-    required this.textOpacity,
     required this.animationController,
     required this.rotationAnimation,
     required this.pageController,
@@ -43,6 +44,8 @@ class GameState extends Equatable {
   TemporaryPlayer get currentPlayer => players[currentPlayerIndex];
 
   GameState copyWith({
+    CardSide? cardSide,
+    CardSide? nextCardSide,
     List<TemporaryPlayer>? players,
     List<CardQuestions>? questions,
     int? currentPlayerIndex,
@@ -51,8 +54,6 @@ class GameState extends Equatable {
     bool? isTapped,
     bool? isFlipped,
     bool? isCardVisible,
-    double? opacity,
-    double? textOpacity,
     int? previousPage,
     AnimationController? animationController,
     Animation<double>? rotationAnimation,
@@ -61,6 +62,8 @@ class GameState extends Equatable {
     TemporaryPlayer? playerReachedMaxPoints,
   }) {
     return GameState(
+      cardSide: cardSide ?? this.cardSide,
+      nextCardSide: nextCardSide ?? this.nextCardSide,
       players: players ?? this.players,
       questions: questions ?? this.questions,
       currentPlayerIndex: currentPlayerIndex ?? this.currentPlayerIndex,
@@ -70,8 +73,6 @@ class GameState extends Equatable {
       isFlipped: isFlipped ?? this.isFlipped,
       isCardVisible: isCardVisible ?? this.isCardVisible,
       previousPage: previousPage ?? this.previousPage,
-      opacity: opacity ?? this.opacity,
-      textOpacity: textOpacity ?? this.textOpacity,
       animationController: animationController ?? this.animationController,
       rotationAnimation: rotationAnimation ?? this.rotationAnimation,
       opacityAnimation: opacityAnimation ?? this.opacityAnimation,
@@ -83,13 +84,13 @@ class GameState extends Equatable {
 
   @override
   List<Object?> get props => [
+        cardSide,
+        nextCardSide,
         players,
         questions,
         currentPlayerIndex,
         selectedIndex,
         canScroll,
-        opacity,
-        textOpacity,
         animationController,
         rotationAnimation,
         pageController,

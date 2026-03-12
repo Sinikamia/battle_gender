@@ -31,14 +31,14 @@ class ButtonEmpty extends StatelessWidget {
         onTap: onPressed,
         child: Container(
           decoration: BoxDecoration(
-            border: Border.all(color: Color(0xFF600010), width: 2),
+            border: Border.all(color: const Color(0xFF600010), width: 2),
             borderRadius: BorderRadius.circular(30),
           ),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20.0),
             child: Row(
               children: [
-                Icon(icon, color: Color(0xFF600010)),
+                Icon(icon, color: const Color(0xFF600010)),
                 const SizedBox(width: 5),
                 Expanded(child: Center(child: Text(text, style: myStyle))),
                 const SizedBox(width: 5),

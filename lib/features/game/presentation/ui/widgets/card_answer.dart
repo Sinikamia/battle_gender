@@ -33,30 +33,26 @@ class CardAnswer extends StatelessWidget {
           ),
         ],
       ),
-      child: Transform(
-        alignment: Alignment.center,
-        transform: Matrix4.identity()..scale(-1.0, 1.0, 1.0),
-        child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Center(
-            child: Column(
-              children: [
-                const Text(
-                  "Ответ",
-                  style: myStyle1,
-                  textAlign: TextAlign.center,
-                ),
-                Expanded(
-                  child: Center(
-                    child: Text(
-                      text,
-                      style: myStyle,
-                      textAlign: TextAlign.center,
-                    ),
+      child: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Center(
+          child: Column(
+            children: [
+              const Text(
+                "Ответ",
+                style: myStyle1,
+                textAlign: TextAlign.center,
+              ),
+              Expanded(
+                child: Center(
+                  child: Text(
+                    text,
+                    style: myStyle,
+                    textAlign: TextAlign.center,
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

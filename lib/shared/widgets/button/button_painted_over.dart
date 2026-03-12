@@ -5,10 +5,10 @@ class ButtonPaintedOver extends StatelessWidget {
   final Function() onTap;
 
   const ButtonPaintedOver({
-    Key? key,
+    super.key,
     required this.text,
     required this.onTap,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +30,7 @@ class ButtonPaintedOver extends StatelessWidget {
         ),
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
-            backgroundColor: Color(0xFF600010),
+            backgroundColor: const Color(0xFF600010),
           ),
           onPressed: onTap,
           child: Text(text, style: myStyle1),

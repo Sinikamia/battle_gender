@@ -36,3 +36,5 @@ class NextPlayer extends GameEvent {
     this.onGameEnd,
   });
 }
+
+class FlipCompleted extends GameEvent {}
